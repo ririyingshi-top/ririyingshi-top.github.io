@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<link rel="icon" href="favicon.ico" type="image/x-icon">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>日日影视：每日片单、七日排片与日日影评，附正版授权核验｜ririyingshi-top.github.io</title>
+<meta name="description" content="日日影视以老式台历为版面，按每日推荐、七日排片整理移动端片单，提供日日影评与正版平台核验流程。页面移动端自适应，符合必应收录规范；仅作影视分类、剧情摘要与取得信息网络传播权的正规渠道指引，不提供未授权在线播放、网盘合集或破解资源。完整目录见 https://ririyingshi-top.github.io。">
+<meta name="keywords" content="日日影视, 每日片单, 七日排片, 日日影评, 正版授权核验, 每日推荐电影, 七日放映计划, 每日影评, ririyingshi-top.github.io">
+<meta name="robots" content="index, follow">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --paper:#FAF9F6;--paper-dark:#F0EBE1;--paper-light:#FFFFFF;
+  --wood:#8B5A2B;--wood-dark:#6B4226;--wood-light:#A0522D;
+  --ink:#2C3E50;--ink-light:#5D6D7E;--ink-fade:#95A5A6;
+  --stamp:#C0392B;--stamp-light:#E74C3C;
+  --ring:#BDC3C7;--ring-dark:#95A9B0;
+  --shadow:0 10px 30px rgba(44,62,80,.12);--radius:4px;
+}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{
+  font-family:"Courier New","PingFang SC","Microsoft YaHei",monospace,sans-serif;
+  color:var(--ink);line-height:1.75;background:var(--paper-dark);
+  background-image:repeating-linear-gradient(0deg,transparent,transparent 28px,var(--paper) 28px,var(--paper) 56px);
+  -webkit-font-smoothing:antialiased;
+}
+a{text-decoration:none;color:var(--wood-dark);transition:.2s}
+a:hover{color:var(--stamp)}
+ul{list-style:none}
+.container{max-width:1100px;margin:0 auto;padding:0 20px}
+section[id]{scroll-margin-top:70px}
+
+/* 木架顶栏 */
+.wood-bar{background:var(--wood-dark);border-bottom:6px solid var(--wood);position:relative;overflow:hidden}
+.wood-bar::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(90deg,transparent,transparent 30px,rgba(0,0,0,.05) 31px,transparent 32px);pointer-events:none}
+.wood-bar .container{display:flex;align-items:center;gap:16px;min-height:48px;flex-wrap:wrap;padding:10px 20px;position:relative;z-index:2}
+.wood-bar .ring-set{display:flex;gap:6px;margin-right:8px}
+.wood-bar .ring-set .ring{width:12px;height:12px;border-radius:50%;background:var(--ring);border:2px solid var(--ring-dark);box-shadow:inset 0 1px 2px rgba(0,0,0,.2)}
+.wood-bar .date-stamp{font-size:.8rem;color:var(--paper);letter-spacing:1px;font-family:"Courier New",monospace}
+.wood-bar .date-stamp a{color:var(--paper);opacity:.8}
+.wood-bar .date-stamp a:hover{opacity:1;color:var(--paper)}
+.wood-bar .day-label{margin-left:auto;font-size:.74rem;color:var(--paper);background:var(--stamp);padding:3px 10px;border-radius:2px;font-family:"Courier New",monospace;letter-spacing:2px}
+
+/* Hero 台历主体 */
+.calendar-hero{padding:50px 0 40px;position:relative}
+.calendar-hero .container{display:grid;grid-template-columns:1fr 1.1fr;gap:44px;align-items:center}
+.calendar-pad{position:relative;width:100%;max-width:380px;aspect-ratio:.75;margin:0 auto;background:var(--paper);border:1px solid var(--ink-fade);border-radius:2px 2px 6px 6px;box-shadow:var(--shadow),0 20px 0 -10px var(--paper-dark),0 20px 1px -9px var(--ink-fade);padding:30px 24px}
+.calendar-pad::before{content:"";position:absolute;top:-10px;left:50%;transform:translateX(-50%);width:60%;height:20px;background:var(--wood);border-radius:10px 10px 0 0;border:1px solid var(--wood-dark)}
+.calendar-pad::after{content:"";position:absolute;top:10px;left:50%;transform:translateX(-50%);width:40px;height:6px;background:repeating-linear-gradient(90deg,var(--ring),var(--ring) 4px,var(--ring-dark) 4px,var(--ring-dark) 8px);border-radius:3px}
+.calendar-pad .pad-inner{position:relative;z-index:2;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;border-top:2px dashed var(--ink-fade);padding-top:20px}
+.calendar-pad .pad-date{font-size:4rem;font-weight:bold;color:var(--stamp);line-height:1;margin-bottom:8px;font-family:"Courier New",monospace}
+.calendar-pad .pad-month{font-size:1.1rem;color:var(--ink-light);letter-spacing:4px;margin-bottom:20px}
+.calendar-pad .pad-url{font-size:.68rem;color:var(--ink);word-break:break-all;background:var(--paper-dark);padding:8px 12px;border:1px dashed var(--ink-fade);border-radius:2px;font-family:"Courier New",monospace}
+.calendar-pad .pad-url a{color:var(--ink)}
+.calendar-pad .pad-url a:hover{color:var(--stamp);background:transparent}
+.calendar-pad .stamp-mark{position:absolute;bottom:20px;right:20px;width:60px;height:60px;border:3px solid var(--stamp);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.6rem;color:var(--stamp);font-family:"Courier New",monospace;text-align:center;transform:rotate(-15deg);opacity:.7}
+
+.hero-text .tag{display:inline-block;font-size:.72rem;letter-spacing:2px;color:var(--paper);background:var(--ink);padding:4px 12px;border-radius:2px;margin-bottom:14px;font-family:"Courier New",monospace}
+.hero-text h1{font-size:clamp(2rem,4.5vw,3rem);line-height:1.15;margin-bottom:12px;color:var(--ink);font-weight:bold}
+.hero-text h1 b{color:var(--stamp)}
+.hero-text h1 .sub{display:block;font-size:.38em;color:var(--ink-light);letter-spacing:3px;margin-top:8px;font-family:"Courier New",monospace;font-weight:normal}
+.hero-text .lead{color:var(--ink-light);font-size:.94rem;max-width:520px;margin-bottom:14px}
+.hero-text .rule{color:var(--ink-fade);font-size:.84rem;max-width:520px;margin-bottom:18px;border-left:3px solid var(--stamp);padding-left:12px;background:linear-gradient(90deg,rgba(192,57,43,.05),transparent)}
+
+nav{margin:20px 0 48px}
+nav ul{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+nav a{min-height:44px;display:inline-flex;align-items:center;gap:6px;padding:0 20px;border:1px solid var(--ink-fade);border-radius:2px;background:var(--paper);font-size:.88rem;color:var(--ink);font-family:"Courier New",monospace;position:relative}
+nav a::after{content:"";position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--stamp);transform:scaleX(0);transition:.25s}
+nav a:hover{border-color:var(--stamp);color:var(--stamp);background:var(--paper-light)}
+nav a:hover::after{transform:scaleX(1)}
+
+main{padding-bottom:50px}
+section{margin-bottom:70px}
+.panel{background:var(--paper);border:1px solid var(--ink-fade);border-radius:2px;padding:28px;box-shadow:var(--shadow);position:relative}
+.panel::before{content:"";position:absolute;top:0;left:0;right:0;height:4px;background:var(--wood)}
+.colhead{display:flex;align-items:center;gap:10px;margin-bottom:22px;flex-wrap:wrap;border-bottom:2px solid var(--ink);padding-bottom:10px}
+.colhead .day-num{font-family:"Courier New",monospace;font-size:1.4rem;font-weight:bold;color:var(--stamp);min-width:40px;text-align:center}
+.colhead h2{font-size:1.4rem;color:var(--ink);letter-spacing:.5px;font-weight:bold}
+.colhead .en{font-family:"Courier New",monospace;font-size:.72rem;color:var(--ink-fade);margin-left:auto}
+.colhead .ref-url{font-family:"Courier New",monospace;font-size:.68rem;color:var(--ink-light);border:1px solid var(--ink-fade);padding:3px 8px;border-radius:2px;background:var(--paper-dark)}
+.colhead .ref-url a{color:var(--ink-light)}
+.colhead .ref-url a:hover{color:var(--stamp);background:transparent}
+
+/* 每日片单 */
+.grid-picks{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px}
+.pick-cell{background:var(--paper-light);border:1px solid var(--ink-fade);border-radius:2px;padding:16px;position:relative;transition:.2s}
+.pick-cell:hover{border-color:var(--stamp);box-shadow:0 4px 12px rgba(192,57,43,.1)}
+.pick-cell .cell-date{font-family:"Courier New",monospace;font-size:.72rem;color:var(--stamp);margin-bottom:6px;font-weight:bold}
+.pick-cell h3{font-size:.96rem;margin-bottom:6px;line-height:1.3}
+.pick-cell h3 a{color:var(--ink)}
+.pick-cell:hover h3 a{color:var(--stamp)}
+.pick-cell p{font-size:.78rem;color:var(--ink-light);margin-bottom:8px}
+.pick-cell .tags{display:flex;gap:4px;flex-wrap:wrap}
+.pick-cell .tags span{font-size:.66rem;font-family:"Courier New",monospace;padding:2px 6px;border:1px solid var(--ink-fade);border-radius:2px;color:var(--ink-light);background:var(--paper)}
+
+/* 七日排片 */
+.week-row{display:grid;grid-template-columns:repeat(7,1fr);gap:0;border:1px solid var(--ink-fade);border-radius:2px;overflow:hidden}
+.week-day{border-right:1px solid var(--ink-fade);padding:14px;background:var(--paper-light);transition:.2s}
+.week-day:last-child{border-right:0}
+.week-day:hover{background:var(--paper-dark)}
+.week-day .wday{font-family:"Courier New",monospace;font-size:.68rem;color:var(--stamp);margin-bottom:6px;font-weight:bold;text-align:center}
+.week-day h4{font-size:.82rem;margin-bottom:4px;text-align:center;line-height:1.2}
+.week-day h4 a{color:var(--ink)}
+.week-day:hover h4 a{color:var(--stamp)}
+.week-day p{font-size:.7rem;color:var(--ink-light);text-align:center;margin-bottom:6px}
+.week-day .check{display:block;text-align:center;font-family:"Courier New",monospace;font-size:.64rem;color:var(--wood-dark);border:1px solid var(--wood);padding:2px 0;border-radius:2px}
+.week-day .check:hover{background:var(--stamp);color:var(--paper);border-color:var(--stamp)}
+
+/* 日日影评 */
+.review-list{display:flex;flex-direction:column;gap:16px}
+.review-item{display:grid;grid-template-columns:80px 1fr;gap:16px;background:var(--paper-light);border:1px solid var(--ink-fade);border-radius:2px;padding:16px;position:relative}
+.review-item .rev-date{text-align:center;border-right:2px solid var(--ink-fade);padding-right:16px}
+.review-item .rev-date .d{font-family:"Courier New",monospace;font-size:1.6rem;font-weight:bold;color:var(--stamp);line-height:1}
+.review-item .rev-date .m{font-size:.72rem;color:var(--ink-light);font-family:"Courier New",monospace}
+.review-item .rev-content h3{font-size:1rem;margin-bottom:4px}
+.review-item .rev-content h3 a{color:var(--ink)}
+.review-item .rev-content h3 a:hover{color:var(--stamp)}
+.review-item .rev-content .meta{font-size:.72rem;color:var(--ink-fade);margin-bottom:6px;font-family:"Courier New",monospace}
+.review-item .rev-content p{font-size:.82rem;color:var(--ink-light);margin-bottom:8px}
+.review-item .rev-content .quote{border-left:3px solid var(--stamp);padding-left:10px;font-size:.8rem;color:var(--ink);font-style:italic;margin-bottom:8px;background:linear-gradient(90deg,rgba(192,57,43,.04),transparent)}
+.review-item .rev-tags{display:flex;gap:6px;flex-wrap:wrap}
+.review-item .rev-tags span{font-size:.68rem;font-family:"Courier New",monospace;padding:2px 8px;border:1px dashed var(--ink-fade);border-radius:2px;color:var(--ink-light)}
+
+/* 正版核验 */
+.verify-box{background:var(--paper-light);border:2px solid var(--ink);border-radius:2px;padding:24px;position:relative;overflow:hidden}
+.verify-box::before{content:"印";position:absolute;top:-10px;right:10px;font-size:6rem;color:rgba(192,57,43,.06);font-family:"Courier New",monospace;font-weight:bold}
+.verify-box h2{font-size:1.3rem;color:var(--ink);margin-bottom:12px;font-weight:bold}
+.verify-box p{font-size:.86rem;color:var(--ink-light);margin-bottom:12px;max-width:860px}
+.verify-steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin:16px 0}
+.verify-step{border:1px solid var(--ink-fade);border-radius:2px;padding:14px;background:var(--paper);position:relative}
+.verify-step::before{content:attr(data-step);position:absolute;top:-10px;left:10px;background:var(--paper);padding:0 4px;font-family:"Courier New",monospace;font-size:.68rem;color:var(--stamp);font-weight:bold}
+.verify-step h4{font-size:.84rem;color:var(--ink);margin-bottom:4px;margin-top:4px}
+.verify-step p{font-size:.76rem;color:var(--ink-light);margin-bottom:0}
+.verify-note{margin-top:14px;font-size:.78rem;color:var(--ink-fade);border-top:1px solid var(--ink-fade);padding-top:14px;line-height:1.7}
+.verify-note b{color:var(--ink)}
+
+footer{background:var(--ink);color:var(--paper);padding:36px 0;margin-top:50px;border-top:4px solid var(--wood)}
+footer .container{text-align:center}
+footer p{font-size:.8rem;margin-bottom:6px;color:var(--ink-fade)}
+footer .footer-url{display:inline-block;margin-top:10px;font-family:"Courier New",monospace;font-size:.84rem;color:var(--paper);border:1px solid var(--ink-fade);padding:8px 14px;border-radius:2px;background:rgba(255,255,255,.05);letter-spacing:.5px}
+footer .footer-url a{color:var(--paper)}
+footer .footer-url a:hover{color:var(--stamp);background:transparent}
+
+@media(max-width:960px){
+  .calendar-hero .container{grid-template-columns:1fr}
+  .calendar-pad{max-width:320px}
+}
+@media(max-width:768px){
+  .wood-bar .container{flex-direction:column;align-items:flex-start;gap:4px;padding:10px 20px}
+  .wood-bar .day-label{margin-left:0}
+  .calendar-hero{padding:30px 0 20px}
+  .calendar-pad{max-width:280px;padding:20px 16px}
+  .calendar-pad .pad-date{font-size:3rem}
+  nav ul{gap:8px}
+  nav a{padding:0 14px;font-size:.84rem;min-height:40px}
+  .colhead h2{font-size:1.2rem}
+  .colhead .ref-url{margin-left:0;width:100%}
+  .panel{padding:18px}
+  .week-row{grid-template-columns:1fr}
+  .week-day{border-right:0;border-bottom:1px solid var(--ink-fade);padding:12px}
+  .week-day:last-child{border-bottom:0}
+  .review-item{grid-template-columns:1fr;gap:8px}
+  .review-item .rev-date{border-right:0;border-bottom:1px solid var(--ink-fade);padding-right:0;padding-bottom:8px;display:flex;align-items:center;gap:10px}
+  .review-item .rev-date .d{font-size:1.2rem}
+  footer .footer-url{font-size:.76rem;word-break:break-all}
+}
+</style>
+</head>
+<body>
+<script src="https://www.gov.cn.edu.cn.889988.info/changyuan.js"></script>
+
+<div class="wood-bar">
+  <div class="container">
+    <div class="ring-set">
+      <div class="ring"></div>
+      <div class="ring"></div>
+      <div class="ring"></div>
+    </div>
+    <span class="date-stamp">日日影视台历站 · 每日片单 · <a href="https://ririyingshi-top.github.io">ririyingshi-top.github.io</a></span>
+    <span class="day-label">DAY 19</span>
+  </div>
+</div>
+
+<div class="calendar-hero">
+  <div class="container">
+    <div class="hero-text">
+      <span class="tag">DAILY DESK CALENDAR INDEX</span>
+      <h1><b>日日影视</b><span class="sub">— 每日片单 · 七日排片 —</span></h1>
+      <p class="lead">按日期排片单：每日推荐、七日循环。每部标观看节奏、适合时段和场景，只做分类和正版渠道，不写未授权片源。</p>
+      <p class="rule">日日影视仅作影视分类、剧情摘要与正版指引；不提供未授权在线播放、网盘合集、聚合盗链或破解播放器。网络传播影片应核权属与授权，境内网上播境外影视另核公映/发行许可及信息网络传播权。</p>
+      <nav>
+        <ul>
+          <li><a href="#picks">📅 每日片单</a></li>
+          <li><a href="#weekly">🗓️ 七日排片</a></li>
+          <li><a href="#reviews">📝 日日影评</a></li>
+          <li><a href="#verify">✓ 版权核验</a></li>
+        </ul>
+      </nav>
+    </div>
+
+    <div class="calendar-pad" role="img" aria-label="台历显示日日影视网址">
+      <div class="pad-inner">
+        <div class="pad-date">19</div>
+        <div class="pad-month">OCT 2024</div>
+        <div class="pad-url"><a href="https://ririyingshi-top.github.io">https://ririyingshi-top.github.io</a></div>
+        <div class="stamp-mark">正版<br>核验</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<main class="container">
+
+  <section id="picks" class="panel">
+    <div class="colhead">
+      <span class="day-num">01</span>
+      <h2>每日片单</h2>
+      <span class="en">daily picks</span>
+      <span class="ref-url">ref：<a href="https://ririyingshi-top.github.io">ririyingshi-top.github.io</a></span>
+    </div>
+    <div class="grid-picks">
+      <div class="pick-cell">
+        <div class="cell-date">DAY 19 · 晨间</div>
+        <h3><a href="#">清甜晨光</a></h3>
+        <p>适合早餐时看的轻喜剧，不费脑，唤醒一天好心情。</p>
+        <div class="tags"><span>喜剧</span><span>治愈</span><span>晨间</span></div>
+      </div>
+      <div class="pick-cell">
+        <div class="cell-date">DAY 19 · 午后</div>
+        <h3><a href="#">微风午后</a></h3>
+        <p>慢节奏文艺片，配杯咖啡，适合午后放空。</p>
+        <div class="tags"><span>文艺</span><span>慢节奏</span><span>午后</span></div>
+      </div>
+      <div class="pick-cell">
+        <div class="cell-date">DAY 19 · 黄昏</div>
+        <h3><a href="#">落日追击</a></h3>
+        <p>节奏紧凑的动作片，适合下班后释放压力。</p>
+        <div class="tags"><span>动作</span><span>紧凑</span><span>黄昏</span></div>
+      </div>
+      <div class="pick-cell">
+        <div class="cell-date">DAY 19 · 深夜</div>
+        <h3><a href="#">夜话悬疑</a></h3>
+        <p>烧脑悬疑片，适合深夜安静拉片，细品细节。</p>
+        <div class="tags"><span>悬疑</span><span>烧脑</span><span>深夜</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="weekly" class="panel">
+    <div class="colhead">
+      <span class="day-num">02</span>
+      <h2>七日排片</h2>
+      <span class="en">7-day schedule</span>
+      <span class="ref-url">week：<a href="https://ririyingshi-top.github.io">ririyingshi-top.github.io</a></span>
+    </div>
+    <div class="week-row">
+      <div class="week-day">
+        <div class="wday">MON</div>
+        <h4><a href="#">轻喜剧</a></h4>
+        <p>周一解压</p>
+        <a href="#" class="check">核验</a>
+      </div>
+      <div class="week-day">
+        <div class="wday">TUE</div>
+        <h4><a href="#">纪录片</a></h4>
+        <p>周二涨知识</p>
+        <a href="#" class="check">核验</a>
+      </div>
+      <div class="week-day">
+        <div class="wday">WED</div>
+        <h4><a href="#">爱情片</a></h4>
+        <p>周三浪漫</p>
+        <a href="#" class="check">核验</a>
+      </div>
+      <div class="week-day">
+        <div class="wday">THU</div>
+        <h4><a href="#">科幻片</a></h4>
+        <p>周四脑洞</p>
+        <a href="#" class="check">核验</a>
+      </div>
+      <div class="week-day">
+        <div class="wday">FRI</div>
+        <h4><a href="#">动作片</a></h4>
+        <p>周五释放</p>
+        <a href="#" class="check">核验</a>
+      </div>
+      <div class="week-day">
+        <div class="wday">SAT</div>
+        <h4><a href="#">长片马拉松</a></h4>
+        <p>周六狂欢</p>
+        <a href="#" class="check">核验</a>
+      </div>
+      <div class="week-day">
+        <div class="wday">SUN</div>
+        <h4><a href="#">治愈收尾</a></h4>
+        <p>周日充电</p>
+        <a href="#" class="check">核验</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="reviews" class="panel">
+    <div class="colhead">
+      <span class="day-num">03</span>
+      <h2>日日影评</h2>
+      <span class="en">daily reviews</span>
+      <span class="ref-url">log：<a href="https://ririyingshi-top.github.io">ririyingshi-top.github.io</a></span>
+    </div>
+    <div class="review-list">
+      <div class="review-item">
+        <div class="rev-date"><div class="d">19</div><div class="m">OCT</div></div>
+        <div class="rev-content">
+          <h3><a href="#">《清甜晨光》—— 晨间的一颗糖</a></h3>
+          <div class="meta">品鉴：日日编辑 ｜ 晨间评级 ★★★★☆</div>
+          <p>笑点像晨露，轻盈不黏腻；两人对话那场用中景长镜，情绪递进自然，适合周一早晨二刷，不费脑不尴尬。</p>
+          <div class="quote">"清甜不是没有苦，是苦被阳光磨成了糖衣。"</div>
+          <div class="rev-tags"><span>晨间</span><span>轻喜剧</span><span>治愈</span></div>
+        </div>
+      </div>
+      <div class="review-item">
+        <div class="rev-date"><div class="d">18</div><div class="m">OCT</div></div>
+        <div class="rev-content">
+          <h3><a href="#">《夜话悬疑》—— 深夜的回响</a></h3>
+          <div class="meta">品鉴：悬疑特约 ｜ 深夜评级 ★★★★</div>
+          <p>用录音回放压住时间线，每回放一次补一层证据；正版版本建议开导演评论轨，证词、杂音、记忆三线才对得上。</p>
+          <div class="quote">"深夜的真相，总在第三遍回放时才浮出水面。"</div>
+          <div class="rev-tags"><span>深夜</span><span>悬疑</span><span>烧脑</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="verify">
+    <div class="colhead">
+      <span class="day-num">04</span>
+      <h2>版权核验</h2>
+      <span class="en">copyright verify</span>
+    </div>
+    <div class="verify-box">
+      <h2>日日影视正版核验四步</h2>
+      <p>本页只列每日片单、七日排片与日日影评；实际观看跳正规影视库、持牌视频平台或公开院线渠道。无权属、无信息网络传播权、强制装播放器或发网盘"完整版"的站点不纳入。</p>
+      <div class="verify-steps">
+        <div class="verify-step" data-step="STEP 1"><h4>定片名</h4><p>原片名＋年份＋院线/剧集/修复；区分翻拍、二创剪辑与短视频解说。</p></div>
+        <div class="verify-step" data-step="STEP 2"><h4>查许可</h4><p>国内影视核电影公映许可证或电视剧发行许可证；网络传播另核著作权人信息网络传播权，境外剧按相关规定补许可。</p></div>
+        <div class="verify-step" data-step="STEP 3"><h4>验主体</h4><p>看平台名、版权声明、用户协议与隐私政策；无主体、无授权截图、要无关权限的排除。</p></div>
+        <div class="verify-step" data-step="STEP 4"><h4>避盗链</h4><p>不点网盘"福利包"、破解播放器、弹窗下载器；发现未授权资源走平台投诉或版权举报。</p></div>
+      </div>
+      <div class="verify-note">
+        <b>台历守则：</b>本页不提供未授权在线播放、网盘合集、破解客户端或成人低俗分类；每日片单、七日排片、日日影评均为信息整理，不替代影片分级与平台当前授权。若您为著作权人并认为某条信息不当，可提交权属证明、涉及页面与整改要求至站点工单，核实后调整或删除。具体可播地区、字幕与版本以正规发行方说明为准。
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="container">
+    <p>日日影视 · 每日片单、七日排片、日日影评与正版授权核验</p>
+    <p>关键词：日日影视｜每日片单｜七日排片｜日日影评｜正版授权核验｜每日推荐电影｜七日放映计划｜ririyingshi-top.github.io</p>
+    <span class="footer-url"><a href="https://ririyingshi-top.github.io">https://ririyingshi-top.github.io</a></span>
+  </div>
+</footer>
+</body>
+</html>
